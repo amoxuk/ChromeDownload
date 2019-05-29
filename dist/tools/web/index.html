@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh" >
+
+<!-- Mirrored from www.peise.net/tools/web/ by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 14 Oct 2018 13:55:22 GMT -->
+<head>  
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>Color Scheme Designer 3_高级在线配色器_配色网</title>
+	<link rel="stylesheet" href="css/default.css" type="text/css">
+	<script type="text/javascript" src="js/jquery-1.3.min.js"></script>
+	<script type="text/javascript" src="js/jquery.styledselect.js"></script>
+        <script type="text/javascript" src="js/jquery.floatbox.js"></script>
+	<script type="text/javascript" src="js/jquery.tooltip.js"></script>
+	<script type="text/javascript" src="js/jquery.droppy.html"></script>
+	<script type="text/javascript" src="js/color.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
+	<script type="text/javascript" src="js/app_pro.js"></script>
+</head>
+<body>
+
+<div id="jscheck">
+	<h1>高级在线配色工具</h1>
+	<div id="load">
+		<h4>你的浏览器需要支持javascipt&amp; CSS才能顺利使用这个软件.</h4>
+		<p>你也可以使用其他工具<a href="http://www.peise.net/previous">在线配色软件</a>.</p>
+		<hr>
+	</div>
+</div>
+<script type="text/javascript">
+<!--
+
+var elm = document.getElementById('load')
+if (elm) elm.innerHTML = '<p>稍等 正在装载...<'+'/p>';
+
+//-->
+</script>
+
+<div id="canvas" style="display:none">
+
+	<h2>版权<a href="http://www.pixy.cz/index-en.html">Petr Stanicek</a>  <a href="http://www.peise.net/">配色网翻译</a></h2>
+
+	<table id="model"><tr>
+		<td><a id="m1" class="help sel" href="#">单色搭配</a></td>
+		<td><a id="m2" class="help" href="#">互补色搭配</a></td>
+		<td><a id="m3" class="help" href="#">三角形搭配</a></td>
+		<td><a id="m4" class="help" href="#">矩形搭配</a></td>
+		<td><a id="m5" class="help" href="#">类似色搭配</a></td>
+
+		<td><a id="m6" class="help" href="#">类似色搭配互补色</a></td>
+	</tr></table>
+
+	<div id="pane-wheel" class="pane"><div id="wheel">
+		<div id="sample" class="bg-pri-0"></div>
+		<div id="wh1"></div>
+		<div id="wh2"></div>
+		<div id="wh3"></div>
+		<div id="wh4"></div>
+
+		<img class="dot help" id="dot1" src="img/e.html">
+		<img class="dot help" id="dot2" src="img/e.html">
+		<img class="dot help" id="dot3" src="img/e.html">
+		<img class="dot help" id="dot4" src="img/e.html">
+		<div class="val help" id="hue-val">Hue: <span>0°</span></div>
+		<div class="val help" id="dist-val">Angle: <span>0°</span></div>
+		<table id="rgb-parts" class="help">
+
+			<tr><th>R:</th><td id="rgb-r">100 %</td></tr>
+			<tr><th>G:</th><td id="rgb-g">0 %</td></tr>
+			<tr><th>B:</th><td id="rgb-b">0 %</td></tr>
+		</table>
+		<div class="val help" id="rgb-val">RGB: <span>FF0000</span></div>
+
+	</div></div>
+
+	<div id="pane-vars" class="pane">
+		<div id="presets" class="help">
+			预设: 
+			<select></select>
+		</div>
+		<div id="saturation-cover">
+			<h4><span id="ttl-c1">配色方案</span><span id="ttl-c2">选择参数</span><br>饱和度/明度</h4>
+
+			<div id="saturation"><div class="slider">
+				<img class="dot help" id="dots" src="img/e.html">
+				<img class="dotv" id="dotv0" src="img/e.html">
+				<img class="dotv" id="dotv1" src="img/e.html">
+				<img class="dotv" id="dotv2" src="img/e.html">
+				<img class="dotv" id="dotv3" src="img/e.html">
+				<img class="dotv" id="dotv4" src="img/e.html">
+			</div></div>
+		</div>
+
+		<div id="contrast-cover">
+			<div class="tabs" id="tabs-contrast">
+				<a id="tab-c1" class="sel help" href="#">配色<br>对比度</a>
+				<a id="tab-c2" class="help" href="#">调节<br>参数</a>
+			</div>
+			<div id="contrast" class="slider">
+
+				<img class="dot help" id="dotc" src="img/e.html">
+			</div>
+			<div id="manualvars" class="help">
+			</div>
+		</div>
+	</div>
+
+	<div id="pane-info" class="pane">
+		<div id="coltable"></div>
+
+	</div>
+
+	<div class="tabs" id="tabs-color">
+		<a id="tab-wheel" class="sel help" href="#">色环</a>
+		<a id="tab-vars" class="help" href="#">配色方案调节</a>
+		<a id="tab-info" class="help" href="#">色彩列表</a>
+	</div>
+
+	<table id="palette" class="help"><tr>
+		<td class="cbox bg-pri-0"></td>
+		<td class="cbox bg-sec1-0"></td>
+		<td class="cbox bg-sec2-0"></td>
+		<td class="cbox bg-compl-0"></td>
+	</tr></table>
+
+	<h4 id="schemeid" class="help">配色方案ID: <a href="#" target="_blank"></a></h4>
+
+	<div id="preview-palette-canvas" class="help">
+		<div id="preview-palette-bg1"></div>
+		<div id="preview-palette-bg2"></div>
+	
+		<table id="preview-palette">
+
+		<tr class="pri">
+			<td class="cbox bg-pri-3" rel="pri-3"></td>
+			<td class="cbox bg-pri-0" rel="pri-0" rowspan="2"></td>
+			<td class="cbox bg-pri-1" rel="pri-1"></td>
+
+		</tr>
+		<tr class="pri">
+			<td class="cbox bg-pri-4" rel="pri-4"></td>
+			<td class="cbox bg-pri-2" rel="pri-2"></td>
+		</tr>
+
+		<tr class="sec sec1">
+			<td class="cbox bg-sec1-1" rel="sec1-1"></td>
+			<td class="cbox bg-sec1-0" rel="sec1-0" rowspan="2"></td>
+
+			<td class="cbox bg-sec1-3" rel="sec1-3"></td>
+		</tr>
+		<tr class="sec sec1">
+			<td class="cbox bg-sec1-2" rel="sec1-2"></td>
+			<td class="cbox bg-sec1-4" rel="sec1-4"></td>
+		</tr>
+
+		<tr class="sec sec2">
+			<td class="cbox bg-sec2-1" rel="sec2-1"></td>
+
+			<td class="cbox bg-sec2-0" rel="sec2-0" rowspan="2"></td>
+			<td class="cbox bg-sec2-3" rel="sec2-3"></td>
+		</tr>
+		<tr class="sec sec2">
+			<td class="cbox bg-sec2-2" rel="sec2-2"></td>
+			<td class="cbox bg-sec2-4" rel="sec2-4"></td>
+		</tr>
+
+		<tr class="compl">
+
+			<td class="cbox bg-compl-1" rel="compl-1"></td>
+			<td class="cbox bg-compl-0" rel="compl-0" rowspan="2"></td>
+			<td class="cbox bg-compl-3" rel="compl-3"></td>
+		</tr>
+		<tr class="compl">
+			<td class="cbox bg-compl-2" rel="compl-2"></td>
+			<td class="cbox bg-compl-4" rel="compl-4"></td>
+		</tr>
+
+		</table>
+
+	</div>
+
+	<div class="tabs" id="tabs-preview">
+		<a id="tab-preview" class="sel help" href="#">配色预览</a>
+		<a id="tab-preview2" class="help" href="#">高明度网页演示</a>
+		<a id="tab-preview3" class="help" href="#">低明度网页演示</a>
+
+	</div>
+
+	<div id="cb-warning" title="Vision simulation active"></div>
+
+	<div id="showtext" class="help">
+		<input id="chk-showtext" type="checkbox"><label for="chk-showtext">显示文字</label>
+	</div>
+
+	<div id="fps" class="help"></div>
+
+	
+
+	<form id="form"><input id="form-data" type="hidden" name="data"></form>
+
+	<form id="donate" class="help" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+	<input type="hidden" name="cmd" value="_s-xclick">
+	<input type="hidden" name="hosted_button_id" value="3879757">
+
+	<input type="hidden" name="page_style" value="ColorSchemeDesigner">
+	<input type="image" src="img/e.html" border="0" class="btn" name="submit" alt="PayPal - The safer, easier way to pay online.">
+	<img alt="" border="0" src="../../../www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+	</form>
+
+	<div id="relatedlinks">
+		<font color="yellow">不会用？请看:</font>
+<!-- 1Y -->
+		<a href="http://www.peise.net/info/2010/0526/206.html">色彩搭配进阶理论</a> |
+
+<!-- /1Y -->
+<!-- MM -->
+		<a href="http://www.peise.net/">配色网</a> |
+		<a href="http://www.peise.net/">配色网</a>
+<!-- /MM -->
+	</div>
+
+</div>
+
+
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-1465350-3");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+</body>
+
+
+<!-- Mirrored from www.peise.net/tools/web/ by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 14 Oct 2018 13:55:22 GMT -->
+</html>
