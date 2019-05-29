@@ -17,3 +17,5 @@ import requests
 ```python
     ChromeDownload(r'F:\PYWP\ChromeDownload\localhost.json', 'http://localhost/peise/peise/www.peise.net/').download()
 ```
+
+the json file comes from chrome 'F12' >> 'Network' >> 'F5' >> 'save as HAR from content' >> 'rename as json or keep har'
