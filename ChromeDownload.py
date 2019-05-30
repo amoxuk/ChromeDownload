@@ -16,13 +16,16 @@ link_set = set()
 
 
 class ChromeDownload:
-    def __init__(self, har_or_json=None, host=None, dist=None):
+    def __init__(self, har_or_json=None, host=None, dist=None, wiper=None):
+        if wiper is None:
+            wiper = []
         if dist is None:
             self.dist = 'dist/'
         else:
             self.dist = dist
         self.har = har_or_json
         self.host = host
+        self.wiper = wiper
 
     def find_url(self, obj):
         if not isinstance(obj, dict) and not isinstance(obj, list):
@@ -46,7 +49,11 @@ class ChromeDownload:
                     self.find_url(v)
 
     def create_folder(self, path):
-        path = self.dist + path
+        print('dist: {} path: {}'.format(self.dist, path))
+        path = '{}{}'.format(self.dist, path)
+        path = str(path).split('?')[0]
+        print('open path: {}'.format(path))
+
         if not os.path.exists(path):
             full = ''
             for pth in os.path.split(path)[0].split('/'):
@@ -60,7 +67,9 @@ class ChromeDownload:
                 full += os.path.sep
         return path
 
-    def download(self, har_or_json=None, host=None):
+    def download(self, har_or_json=None, host=None, wiper=None):
+        if wiper is None:
+            wiper = self.wiper
         if har_or_json is None:
             har_or_json = self.har
         if host is None:
@@ -71,29 +80,41 @@ class ChromeDownload:
             self.find_url(jsn)
             print('\n============= LINK ==============\n')
             for link in link_set:
-                if host in link:
-                    print(link.replace(host, ''))
-                    # print(requests.get(link, headers=headers).content)
-                    print(os.path.basename(link))
-                    s_link = link.replace(host, '')
-                    s_link = self.create_folder(s_link)
-                    with open(s_link, 'wb') as f:
-                        f.write(requests.get(link, headers=headers).content)
+                for i in wiper:
+                    if i in link:
+                        print('un-download link: {}'.format(link))
+                        break
                 else:
-                    print(link)
-                    s_link = link.replace('//', '')
-                    print(os.path.basename(s_link))
-                    s_link = os.path.basename(s_link)
-                    if os.path.exists(s_link):
-                        s_link = time.time() + s_link
-                    s_link = self.create_folder(s_link)
-                    with open(s_link, 'wb') as f:
-                        try:
-                            f.write(requests.get(link, headers=headers, ).content)
-                        except Exception as ex:
-                            logging.info(u'Error Download {}'.format(link))
-                            logging.exception(ex)
+                    print("last link: {}".format(link))
+                    if host in link:
+                        print(link.replace(host, ''))
+                        # print(requests.get(link, headers=headers).content)
+                        print(os.path.basename(link))
+                        s_link = link.replace(host, '')
+                        s_link = self.create_folder(s_link)
+                        with open(s_link, 'wb') as f:
+                            try:
+                                f.write(requests.get(link, headers=headers, ).content)
+                            except Exception as ex:
+                                logging.info(u'Error Download {}'.format(link))
+                                logging.exception(ex)
+
+                    else:
+                        print(link)
+                        s_link = link.replace('//', '')
+                        print(os.path.basename(s_link))
+                        s_link = os.path.basename(s_link)
+                        if os.path.exists(s_link):
+                            s_link = time.time() + s_link
+                        s_link = self.create_folder(s_link)
+                        with open(s_link, 'wb') as f:
+                            try:
+                                f.write(requests.get(link, headers=headers, ).content)
+                            except Exception as ex:
+                                logging.info(u'Error Download {}'.format(link))
+                                logging.exception(ex)
 
 
 if __name__ == '__main__':
-    ChromeDownload(r'F:\PYWP\ChromeDownload\localhost.json', 'http://localhost/peise/peise/www.peise.net/').download()
+    ChromeDownload(r'imys.net.json', host='https://imys.net/',
+                   wiper=['google-analytics.com', 'doubleclick.net']).download()
